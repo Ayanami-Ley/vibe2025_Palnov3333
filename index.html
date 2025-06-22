@@ -65,38 +65,38 @@
 </div>
 
 <script>
-    let items = [];
-    let nextId = 1;
-
-    function renderList() {
-        const listBody = document.getElementById('listBody');
-        listBody.innerHTML = '';
-
-        items.forEach((item, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${item.text}</td>
-                <td><button onclick="removeItem(${index})">Remove</button></td>
-            `;
-            listBody.appendChild(row);
-        });
-    }
-
-    function addItem() {
+    async function addItem() {
         const newItemInput = document.getElementById('newItem');
         const newItemText = newItemInput.value.trim();
 
-        if (newItemText) {
-            items.push({ id: nextId++, text: newItemText });
-            newItemInput.value = '';
-            renderList();
+        if (!newItemText) {
+            alert('Please enter an item');
+            return;
         }
-    }
 
-    function removeItem(index) {
-        items.splice(index, 1);
-        renderList();
+        try {
+            const response = await fetch('/add-item', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `text=${encodeURIComponent(newItemText)}`
+            });
+
+            if (!response.ok) {
+                throw new Error('Server returned error');
+            }
+
+            const result = await response.json();
+            
+            if (result.success) {
+                newItemInput.value = '';
+                location.reload();
+            }
+        } catch (error) {
+            console.error('Error adding item:', error);
+            alert('Failed to add item. Please try again.');
+        }
     }
 </script>
 
