@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2/promise');
-const querystring = require('querystring'); // Добавлен модуль для парсинга POST-данных
+const querystring = require('querystring');
 
 const PORT = 3000;
 
@@ -12,58 +12,36 @@ const dbConfig = {
     user: 'root',
     password: '',
     database: 'todolist',
-  };
+};
 
+async function retrieveListItems() {
+    try {
+        const connection = await mysql.createConnection(dbConfig);
+        const query = 'SELECT id, text FROM items';
+        const [rows] = await connection.execute(query);
+        await connection.end();
+        return rows;
+    } catch (error) {
+        console.error('Error retrieving list items:', error);
+        throw error;
+    }
+}
 
-// Добавляем функцию для вставки нового элемента
 async function addListItem(text) {
     try {
         const connection = await mysql.createConnection(dbConfig);
         const query = 'INSERT INTO items (text) VALUES (?)';
         const [result] = await connection.execute(query, [text]);
         await connection.end();
-        return result.insertId; // Возвращаем ID нового элемента
+        return result.insertId;
     } catch (error) {
         console.error('Error adding list item:', error);
         throw error;
     }
 }
 
-
-  async function retrieveListItems() {
-    try {
-      // Create a connection to the database
-      const connection = await mysql.createConnection(dbConfig);
-      
-      // Query to select all items from the database
-      const query = 'SELECT id, text FROM items';
-      
-      // Execute the query
-      const [rows] = await connection.execute(query);
-      
-      // Close the connection
-      await connection.end();
-      
-      // Return the retrieved items as a JSON array
-      return rows;
-    } catch (error) {
-      console.error('Error retrieving list items:', error);
-      throw error; // Re-throw the error
-    }
-  }
-
-// Stub function for generating HTML rows
 async function getHtmlRows() {
-    // Example data - replace with actual DB data later
-    /*
-    const todoItems = [
-        { id: 1, text: 'First todo item' },
-        { id: 2, text: 'Second todo item' }
-    ];*/
-
     const todoItems = await retrieveListItems();
-
-    // Generate HTML for each item
     return todoItems.map(item => `
         <tr>
             <td>${item.id}</td>
@@ -73,18 +51,15 @@ async function getHtmlRows() {
     `).join('');
 }
 
-// Модифицируем обработчик запросов
 async function handleRequest(req, res) {
-    // Обработка POST-запроса для добавления элемента
+    // Обработка POST запроса для добавления элемента
     if (req.method === 'POST' && req.url === '/add-item') {
         let body = '';
         
-        // Собираем данные запроса
         req.on('data', chunk => {
             body += chunk.toString();
         });
         
-        // Когда все данные получены
         req.on('end', async () => {
             const { text } = querystring.parse(body);
             
@@ -95,11 +70,9 @@ async function handleRequest(req, res) {
             }
             
             try {
-                // Добавляем элемент в БД
                 const newItemId = await addListItem(text.trim());
                 console.log(`New item added with ID: ${newItemId}`);
                 
-                // Отправляем успешный ответ
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, id: newItemId }));
             } catch (error) {
@@ -108,7 +81,7 @@ async function handleRequest(req, res) {
             }
         });
     }
-    // Обработка GET-запроса главной страницы
+    // Обработка GET запроса главной страницы
     else if (req.url === '/') {
         try {
             const html = await fs.promises.readFile(
@@ -131,6 +104,5 @@ async function handleRequest(req, res) {
     }
 }
 
-// Create and start server
 const server = http.createServer(handleRequest);
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
