@@ -1,0 +1,221 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Header */
+.header {
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Authentication */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.btn {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.logout-btn {
+    background-color: #f44336;
+}
+
+/* Todo List */
+#todoList {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#todoList th, #todoList td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+#todoList th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+#todoList th:first-child, #todoList th:last-child {
+    width: 10%;
+}
+
+#todoList th:nth-child(2) {
+    width: 70%;
+}
+
+.add-form {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    gap: 10px;
+}
+
+.add-form input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+/* Action Buttons */
+.delete-btn, .edit-btn, .save-btn, .cancel-btn {
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #ff1a1a;
+}
+
+.edit-btn {
+    background-color: #4da6ff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #1a8cff;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background-color: #ff9900;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #e68a00;
+}
+
+.edit-input {
+    width: 95%;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+/* Telegram Section */
+.telegram-section {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.telegram-section h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.telegram-help {
+    background-color: #e1f5fe;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+.telegram-message {
+    margin: 10px 0;
+    font-weight: bold;
+    min-height: 1.5em;
+}
+
+/* Form adjustments */
+.telegram-section .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.telegram-section .form-group label {
+    margin-bottom: 0;
+    min-width: 150px;
+}
+
+.telegram-section .form-group input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.telegram-section .form-group button {
+    padding: 8px 15px;
+}
